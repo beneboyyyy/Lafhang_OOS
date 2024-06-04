@@ -1,0 +1,120 @@
+.navbar {
+    background-color:white;
+    height: 80px;
+
+    
+    padding: 0.5rem;
+}
+
+/* Navbar brand styling */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand img {
+    max-height: 100%;
+    height: 290px; /* Adjust height as needed */
+    width: auto; /* Maintain aspect ratio */
+  }
+  
+  .me-auto {
+    margin-right: auto;
+  }
+  
+  /* Optional: If you want to add padding or margin to the logo */
+  .navbar-brand img {
+    padding: 5px;
+  }
+  /* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar {
+      padding: 0 10px;
+      height: 50px; /* Adjust based on your design */
+    }
+  
+    .navbar-brand img {
+      height: 130px; /* Adjust height as needed for smaller screens */
+    }
+  }
+
+.navbar-toggler {
+    border: none;
+    font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.nav-link {
+    color: #666777;
+    font-weight: 500;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #000;
+}
+
+
+@media (min-width: 991px) {
+    .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background-color: #EF3A5D;
+        visibility: hidden;
+        transition: 0.3s ease-in-out;
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+        width: 100px;
+        visibility: visible;
+    }
+}
+
+.c-item {
+    height: 780px;
+  }
+  
+  .c-img {
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6);
+  }
+.hero-section {
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+}
+
+.hero-section::before {
+    background-color: rgba(0, 0, 0,0);
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+  
+  .hero-section .carousel-item {
+    height: 100vh; 
+    width: 100%; /* Ensure each carousel item takes full viewport height */
+  }
+  
+  .hero-section .carousel-item img {
+    object-fit: cover;  /* Ensures the image covers the entire area without stretching */
+    height: 100%;
+  }
+  

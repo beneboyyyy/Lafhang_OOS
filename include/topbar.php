@@ -3,7 +3,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
 require_once('classes/database.php');
 $con = new Database();
 
-$id = $_SESSION['cust_ID'];
+
+$id =  $_SESSION['cust_ID'];
 $data = $con->viewdata($id);
 
 // Assuming the profile picture URL is stored in the session or fetched from the database
@@ -133,8 +134,8 @@ $profilePicture = $_SESSION['cust_image'] ?? 'path/to/default/profile_picture.jp
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['cust_FN']; ?></span>
-                    <img src="<?php echo $date['cust_image']; ?>" width="30" height="30" class="rounded-circle mr-1"  alt="Profile Picture"> 
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION['cust_user']; ?></span>
+                    <img src="<?php echo $data['cust_image']; ?>" width="30" height="30" class="rounded-circle mr-1"  alt="Profile Picture"> 
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -162,8 +163,30 @@ $profilePicture = $_SESSION['cust_image'] ?? 'path/to/default/profile_picture.jp
         </ul>
 
     </nav>
-    <!-- End of Topbar -->
 
+     <!-- Logout Modal-->
+     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.php">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End of Topbar -->
+ <!-- <p><?php echo $data['cust_image']; ?></p> -->
 </body>
 
+</html>
 </html>

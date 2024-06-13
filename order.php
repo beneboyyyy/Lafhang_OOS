@@ -1,3 +1,9 @@
+<?php
+require_once ('classes/database.php');
+$con = new database();
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

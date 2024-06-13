@@ -1,45 +1,79 @@
 <?php
 require_once ('classes/database.php');
-$con = new database();
 session_start();
 
-// if (isset($_SESSION['user_name'])||$_SESSION['account_type']!=0) {
-//     header('location:login.php');
-//     exit();
-// }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $productName = $_POST['product_name'];
+  $productDescription = $_POST['product_description'];
+  $productPrice = $_POST['product_price'];
+  $productStock = $_POST['product_stock'];
 
-// if (isset($_POST['delete'])) {
-//   $id = $_POST['id'];
-//   if ($con->delete($id)) {
-//     header('location:index.php');
-//   } else {
-//     echo "Something went wrong.";
-//   }
-// }
-
-if (isset($_POST['addProduct'])) {
-    $productName = $_POST['product_name'];
-    $productDescription = $_POST['product_description'];
-    $productPrice = $_POST[' product_price'];
-    // Assuming you handle file upload correctly to get the image path
-    $productImage = "path/to/uploaded/image.jpg"; // Change this to the actual image path
-    $productStock = $_POST['product_stock'];
-
-    if ($con->addProduct($productName, $productDescription, $productPrice, $productImage, $productStock)) {
-        header('location:product.php'); // Redirect to index.php after adding product
-    } else {
-        echo "Something went wrong.";
+    // Ensure the uploads directory exists
+    $target_dir = "uploads/";
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true);
     }
+
+    $uploadOk = 1;
+    $product_image_profile = ''; // Default value if no image is uploaded
+
+    // Check if file is uploaded
+    if (isset($_FILES["product_image"]) && $_FILES["product_image"]["error"] == UPLOAD_ERR_OK) {
+        $original_file_name = basename($_FILES["product_image"]["name"]);
+
+        // NEW CODE: Initialize $new_file_name with $original_file_name
+        $new_file_name = $original_file_name;
+        $target_file = $target_dir . $original_file_name;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        // Check if file already exists and rename if necessary
+        if (file_exists($target_file)) {
+            // Generate a unique file name by appending a timestamp
+            $new_file_name = pathinfo($original_file_name, PATHINFO_FILENAME) . '_' . time() . '.' . $imageFileType;
+            $target_file = $target_dir . $new_file_name;
+        } else {
+            // Update $target_file with the original file name
+            $target_file = $target_dir . $original_file_name;
+        }
+
+        // Check if file is an actual image or fake image
+        $check = getimagesize($_FILES["product_image"]["tmp_name"]);
+        if ($check === false) {
+            echo "File is not an image.";
+            $uploadOk = 0;
+        }
+
+        // Check file size
+        if ($_FILES["product_image"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+        } else {
+            if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
+                echo "The file " . htmlspecialchars($new_file_name) . " has been uploaded.";
+
+                // Save the user data and the path to the profile picture in the database
+                $product_image_profile = 'uploads/' . $new_file_name; // Save the new file name (without directory)
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+
+    // Register user even if the image is not uploaded
+    $con = new Database();
+    $con->addProduct($productName, $productDescription, $productPrice,  $product_image_profile, $productStock);
 }
-
-
-
-// For Pagination
-
-// For Pagination
-
-// For Chart
-// $data = $con->getusercount();
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +125,7 @@ if (isset($_POST['addProduct'])) {
             <form id="addProductForm">
               <div class="form-group">
                 <label for="productImage">Product Image</label>
-                <input type="file" class="form-control-file" id="product_image">
+                <input type="file" class="form-control" id="product_image" accept="image/*" required>
               </div>
               <div class="form-group">
                 <label for="productName">Product Name</label>
@@ -236,19 +270,26 @@ if (isset($_POST['addProduct'])) {
 
   <script>
     $(document).ready(function () {
-      $('#addProductForm').on('submit', function (event) {
-        event.preventDefault();
-        var productName = $('#productName').val();
-        var productPrice = $('#productPrice').val();
-        var productDescription = $('#productDescription').val();
+      $('#addProductForm').on('submit', function (e) {
+        e.preventDefault();
 
-        // Process the form data (e.g., send it to the server via AJAX)
-        console.log('Product Name:', productName);
-        console.log('Product Price:', productPrice);
-        console.log('Product Description:', productDescription);
+        var formData = new FormData(this);
 
-        // Close the modal after submission
-        $('#addProductModal').modal('hide');
+        $.ajax({
+          type: 'POST',
+          url: 'product.php',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            alert(response);
+            // Reload the page after adding the product
+            location.reload();
+          },
+          error: function () {
+            alert('Error adding product.');
+          }
+        });
       });
     });
   </script>

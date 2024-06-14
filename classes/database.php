@@ -116,10 +116,10 @@ class database
     //     }
     // }
 
-    function addProduct($productName, $productDescription, $productPrice, $product_image_profile, $productStock){
+    function addProduct($productID,$productName, $productDescription, $productPrice, $product_image_profile, $productStock){
         $con = $this->opencon();
-        $stmt = $con->prepare("INSERT INTO product (product_name, product_description, product_price, product_image, product_stock) VALUES (?,?,?,?,?)");
-        $stmt->execute([$productName, $productDescription, $productPrice, $product_image_profile, $productStock]);
+        $stmt = $con->prepare("INSERT INTO product (productID,product_name, product_descrip, product_price, product_image, product_stock) VALUES (?,?,?,?,?,?)");
+        $stmt->execute([$productID,$productName, $productDescription, $productPrice, $product_image_profile, $productStock]);
        
         // Get the ID of the last inserted row
         $last_id = $con->lastInsertId();
@@ -322,3 +322,5 @@ INNER JOIN deliveryaddress ON customer.cust_ID = deliveryaddress.cust_ID WHERE c
 //     }
 // }
 }
+
+?>

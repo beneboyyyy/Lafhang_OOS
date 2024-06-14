@@ -21,213 +21,46 @@ session_start();
 
 <body>
 
-  <!-- Navbar start -->
+  <?php include('include/user_nav.php'); ?>
 
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand me-auto" href="#"><img src="img/logo2.png" alt=""></a>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Logo</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link mx-lg-2 active" aria-current="page" href="#Home">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mx-lg-2" href="#Menu">Menu</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mx-lg-2" href="#About Us">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mx-lg-2" href="#Contact">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <ul class="navbar-nav ms-auto d-flex flex-row pe-3">
-        <li class="nav-item ">
-          <a class="nav-link mx-lg-2 pe-2" href="login.php"><i class="bi bi-person"></i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link mx-lg-2 pe-2" href="#"><i class="bi bi-search"></i></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link mx-lg-2" href="#"><i class="bi bi-cart"></i><span class="quantity">0</span></a>
-        </li>
-      </ul>
-      <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-  </nav>
-  <div id="carouselExampleIndicators" class="carousel slide">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-        aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-        aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-        aria-label="Slide 3"></button>
-    </div>
-    <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="0" class="active" aria-current="true"
-          aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      </div>
-
-      <div class="carousel-inner">
-        <div class="carousel-item active c-item">
-          <img src="img/img1.jpg" class="d-block w-100 c-img" alt="Slide 1">
-          <div class="carousel-caption top-0 mt-4">
-            <p class="mt-5 fs-1 text-uppercase justify-content-center">Lafhang House</p>
-            <h1 class="display-1 fw-bolder text-capitalize">Authentic Cebu Lechon Belly</h1>
-            <button class="btn btn-primary px-4 py-2 fs-5 mt-5">Order Now</button>
-          </div>
-        </div>
-        <div class="carousel-item c-item">
-          <img src="img/img2.jpg" class="d-block w-100 c-img" alt="Slide 2">
-          <div class="carousel-caption top-0 mt-4">
-            <p class="text-uppercase fs-3 mt-5">The Best Lechon Belly</p>
-            <p class="display-1 fw-bolder text-capitalize">Here in Batangas</p>
-            <button class="btn btn-primary px-4 py-2 fs-5 mt-5" data-bs-toggle="modal"
-              data-bs-target="#booking-modal">Order Now</button>
-          </div>
-        </div>
-        <div class="carousel-item c-item">
-          <img src="img/img3.jpg" class="d-block w-100 c-img" alt="Slide 3">
-          <div class="carousel-caption top-0 mt-4">
-            <p class="text-uppercase fs-3 mt-5">Ano pang hinihintay mo?</p>
-            <p class="display-1 fw-bolder text-capitalize">Aba'y tikme</p>
-            <button class="btn btn-primary px-4 py-2 fs-5 mt-5" data-bs-toggle="modal"
-              data-bs-target="#booking-modal">Order Now</button>
-          </div>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-      data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-      data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
-  </div>
-  </div>
-  </div>
-  </div>
-
-  <!-- Navbar end -->
 
   <section id="Menu" class="pt-md-5">
     <h2 class="text-center my-5">Menu</h2>
-
-    <!-- Card starts -->
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/Screenshot 2024-05-29 222415.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title ">ChickSilog</h5>
-              
+    <div class="card-container d-flex flex-wrap justify-content-center">
+        <?php
+          $data = $con->viewProduct();
+          foreach ($data as $rows) {
+        ?>
+            <div class="card m-2">
+              <div class="card-body text-center">
+                <?php if (!empty($rows['product_image'])): ?>
+                  <img src="<?php echo htmlspecialchars($rows['product_image']); ?>" alt="Profile Picture"
+                    class="profile-img img-fluid">
+                <?php else: ?>
+                  <img src="path/to/default/profile/pic.jpg" alt="Default Profile Picture" class="profile-img img-fluid">
+                <?php endif; ?>
+                <h5 class="card-title"><?php echo htmlspecialchars($rows['product_name']); ?></h5>
+                <p class="card-text"><strong>Description:</strong>
+                  <?php echo htmlspecialchars($rows['product_descrip']); ?></p>
+                <p class="card-text"><strong>Price:</strong> <?php echo htmlspecialchars($rows['product_price']); ?></p>
+                <p class="card-text"><strong>Stocks:</strong> <?php echo htmlspecialchars($rows['product_stock']); ?></p>
+                <form action="update.php" method="post" class="d-inline">
+                  <input type="hidden" name="id" value="<?php echo htmlspecialchars($rows['productID']); ?>">
+                  <button type="submit" class="btn btn-primary btn-sm">Order Now</button>
+                </form>
+                <form method="POST" class="d-inline">
+                  <input type="hidden" name="id" value="<?php echo htmlspecialchars($rows['productID']); ?>">
+                  <input type="submit" name="add to cart" class="btn btn-danger btn-sm" value="Add To Cart"
+                    onclick="return confirm('Are you sure you want to add this product')">
+                </form>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/Screenshot 2024-05-29 222427.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">SauSilog</h5>
-              
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/Screenshot 2024-05-29 222436.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">BangSilog</h5>
-              
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/Screenshot 2024-05-29 222445.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">TocSilog</h5>
-              
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/Screenshot 2024-05-29 222452.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">ShangSilog</h5>
-              
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/Screenshot 2024-05-29 222458.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">MeatSilog</h5>
-             
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/img6.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Chicken Wings</h5>
-             
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/img7.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Lechon Sisig</h5>
-              
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card">
-            <img src="img/menu/img8.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Lechon Belly</h5>
-              
-            </div>
-          </div>
-        </div>
-      </div>
+        <?php
+          }
+        ?>
     </div>
-    <!-- Card End -->
-  </section>
+</section>i
+
 
  <!-- About Us Section -->
  <section id="About Us" class="pt-md-5">
@@ -319,6 +152,98 @@ session_start();
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="./bootstrap-5.3.3-dist/js/bootstrap.js"></script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('fetch_products.php')
+        .then(response => response.json())
+        .then(products => {
+            const productCards = document.getElementById('product-cards');
+            products.forEach(product => {
+                const col = document.createElement('div');
+                col.classList.add('col-md-4');
+
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                const img = document.createElement('img');
+                img.src = `img/menu/${product.product_image}`;
+                img.classList.add('card-img-top');
+                img.alt = product.product_name;
+
+                const cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
+
+                const cardTitle = document.createElement('h5');
+                cardTitle.classList.add('card-title');
+                cardTitle.textContent = product.product_name;
+
+                const cardDescription = document.createElement('p');
+                cardDescription.classList.add('card-text');
+                cardDescription.textContent = product.product_descrip;
+
+                const cardPrice = document.createElement('p');
+                cardPrice.classList.add('card-text');
+                cardPrice.textContent = `Price: $${product.product_price}`;
+
+                cardBody.appendChild(cardTitle);
+                cardBody.appendChild(cardDescription);
+                cardBody.appendChild(cardPrice);
+                card.appendChild(img);
+                card.appendChild(cardBody);
+                col.appendChild(card);
+                productCards.appendChild(col);
+            });
+        })
+        .catch(error => console.error('Error fetching products:', error));
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('fetch_products.php')
+        .then(response => response.json())
+        .then(products => {
+            const productCards = document.getElementById('product-cards');
+            products.forEach(product => {
+                const col = document.createElement('div');
+                col.classList.add('col-md-4');
+
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                const img = document.createElement('img');
+                img.src = `img/menu/${product.product_image}`;
+                img.classList.add('card-img-top');
+                img.alt = product.product_name;
+
+                const cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
+
+                const cardTitle = document.createElement('h5');
+                cardTitle.classList.add('card-title');
+                cardTitle.textContent = product.product_name;
+
+                const cardDescription = document.createElement('p');
+                cardDescription.classList.add('card-text');
+                cardDescription.textContent = product.product_descrip;
+
+                const cardPrice = document.createElement('p');
+                cardPrice.classList.add('card-text');
+                cardPrice.textContent = `Price: $${product.product_price}`;
+
+                cardBody.appendChild(cardTitle);
+                cardBody.appendChild(cardDescription);
+                cardBody.appendChild(cardPrice);
+                card.appendChild(img);
+                card.appendChild(cardBody);
+                col.appendChild(card);
+                productCards.appendChild(col);
+            });
+        })
+        .catch(error => console.error('Error fetching products:', error));
+});
+</script>
+
 
 </body>
 

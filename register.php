@@ -110,7 +110,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- User Info1 -->
     <div class="container ">
-        
+
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-10 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+           <div class="row">
+            <div class="col-lg-12">
+            <div class="p-5">
+            <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Welcome to Lafhang House!</h1>
+                  </div>
         <form class="user" method="post" action="register.php" enctype="multipart/form-data">
             <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
@@ -146,6 +158,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </button>
         </form>
         </form>
+        <div class="text-center">
+                    <a class="small" href="login.php">I have already Account!</a>
+                  </div>
+        </div>
+        </div>
+        </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->

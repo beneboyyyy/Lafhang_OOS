@@ -1,12 +1,14 @@
 <?php
-require_once ('classes/database.php');
+require_once('classes/database.php');
 session_start();
 
+$con = new Database();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $productName = $_POST['product_name'];
-  $productDescription = $_POST['product_description'];
-  $productPrice = $_POST['product_price'];
-  $productStock = $_POST['product_stock'];
+    $productName = $_POST['product_name'];
+    $productDescription = $_POST['product_description'];
+    $productPrice = $_POST['product_price'];
+    $productStock = $_POST['product_stock'];
 
     // Ensure the uploads directory exists
     $target_dir = "uploads/";
@@ -20,8 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if file is uploaded
     if (isset($_FILES["product_image"]) && $_FILES["product_image"]["error"] == UPLOAD_ERR_OK) {
         $original_file_name = basename($_FILES["product_image"]["name"]);
-
-        // NEW CODE: Initialize $new_file_name with $original_file_name
         $new_file_name = $original_file_name;
         $target_file = $target_dir . $original_file_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -31,9 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Generate a unique file name by appending a timestamp
             $new_file_name = pathinfo($original_file_name, PATHINFO_FILENAME) . '_' . time() . '.' . $imageFileType;
             $target_file = $target_dir . $new_file_name;
-        } else {
-            // Update $target_file with the original file name
-            $target_file = $target_dir . $original_file_name;
         }
 
         // Check if file is an actual image or fake image
@@ -61,98 +58,92 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             if (move_uploaded_file($_FILES["product_image"]["tmp_name"], $target_file)) {
                 echo "The file " . htmlspecialchars($new_file_name) . " has been uploaded.";
-
-                // Save the user data and the path to the profile picture in the database
-                $product_image_profile = 'uploads/' . $new_file_name; // Save the new file name (without directory)
+                $product_image_profile = 'uploads/' . $new_file_name;
             } else {
                 echo "Sorry, there was an error uploading your file.";
             }
         }
     }
 
-    // Register user even if the image is not uploaded
-    $con = new Database();
-    $con->addProduct($productName, $productDescription, $productPrice,  $product_image_profile, $productStock);
+    // Add product to the database
+    if ($con->addProduct(null, $productName, $productDescription, $productPrice, $product_image_profile, $productStock)) {
+        header('location: product.php?status=success');
+        exit();
+    } else {
+        header('location: product.php?status=error');
+        exit();
+    }
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product</title>
-  <link rel="stylesheet" href="./bootstrap-5.3.3-dist/css/bootstrap.css">
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- For Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="include/style.css?v=<?php echo time(); ?>">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <link rel="stylesheet" href="./bootstrap-5.3.3-dist/css/bootstrap.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="include/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body id="page-top">
 
-  <?php include ('include/sidebar.php'); ?>
-  <?php include ('include/topbar.php'); ?>
+<?php include('include/sidebar.php'); ?>
+<?php include('include/topbar.php'); ?>
 
-  <div class="container-fluid">
-
+<div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Product</h1>
-      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal"
-        data-target="#addProductModal">
-        <i class="fas fa-plus-square fa-sm text-white-50"></i> Add Product
-      </a>
+        <h1 class="h3 mb-0 text-gray-800">Product</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" data-toggle="modal" data-target="#addProductModal">
+            <i class="fas fa-plus-square fa-sm text-white-50"></i> Add Product
+        </a>
     </div>
 
     <!-- Add Product Modal -->
-    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form id="addProductForm">
-              <div class="form-group">
-                <label for="productImage">Product Image</label>
-                <input type="file" class="form-control" id="product_image" accept="image/*" required>
-              </div>
-              <div class="form-group">
-                <label for="productName">Product Name</label>
-                <input type="text" class="form-control" id="product_name" placeholder="Enter product name">
-              </div>
-              <div class="form-group">
-                <label for="productPrice">Product Price</label>
-                <input type="number" class="form-control" id="product_price" placeholder="Enter product price">
-              </div>
-              <div class="form-group">
-                <label for="productDescription">Product Description</label>
-                <textarea class="form-control" id="product_description" rows="3"
-                  placeholder="Enter product description"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="productStock">Stock Quantity</label>
-                <input type="number" class="form-control" id="product_stock" placeholder="Enter stock quantity">
-              </div>
-              <!-- Add more fields as needed -->
-              <button type="submit" class="btn btn-primary">Add Product</button>
-            </form>
-          </div>
+    <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm" enctype="multipart/form-data" method="POST" action="">
+                        <div class="form-group">
+                            <label for="product_image">Product Image</label>
+                            <input type="file" class="form-control" name="product_image" id="product_image" accept="image/*" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product_name">Product Name</label>
+                            <input type="text" class="form-control" name="product_name" id="product_name" placeholder="Enter product name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product_price">Product Price</label>
+                            <input type="number" class="form-control" name="product_price" id="product_price" placeholder="Enter product price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product_description">Product Description</label>
+                            <textarea class="form-control" name="product_description" id="product_description" rows="3" placeholder="Enter product description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="product_stock">Stock Quantity</label>
+                            <input type="number" class="form-control" name="product_stock" id="product_stock" placeholder="Enter stock quantity" required>
+                        </div>
+                        <button type="submit" name="addproduct" class="btn btn-primary">Add Product</button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
-
+    <!-- Add your existing table and card display code here -->
     <div class="container user-info rounded shadow p-3 my-5">
       <h2 class="text-center mb-2">Product Table</h2>
       <div class="table-responsive text-center">
@@ -245,11 +236,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <input type="hidden" name="id" value="<?php echo htmlspecialchars($rows['productID']); ?>">
                   <button type="submit" class="btn btn-primary btn-sm">Edit</button>
                 </form>
-                <form method="POST" class="d-inline">
-                  <input type="hidden" name="id" value="<?php echo htmlspecialchars($rows['productID']); ?>">
-                  <input type="submit" name="delete" class="btn btn-danger btn-sm" value="Delete"
-                    onclick="return confirm('Are you sure you want to delete this user?')">
-                </form>
+                  <form method="POST" class="d-inline">
+                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($rows['productID']); ?>">
+                    <input type="submit" name="delete" class="btn btn-danger btn-sm" value="Delete"
+                      onclick="return confirm('Are you sure you want to delete this user?')">
+                  </form>
               </div>
             </div>
             <?php
@@ -261,38 +252,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
 
+</div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-  <script>
-    $(document).ready(function () {
-      $('#addProductForm').on('submit', function (e) {
+<!-- <script>
+$(document).ready(function () {
+    $('#addProductForm').on('submit', function (e) {
         e.preventDefault();
 
         var formData = new FormData(this);
 
         $.ajax({
-          type: 'POST',
-          url: 'product.php',
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function (response) {
-            alert(response);
-            // Reload the page after adding the product
-            location.reload();
-          },
-          error: function () {
-            alert('Error adding product.');
-          }
+            type: 'POST',
+            url: '', // Same page handling form submission
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                alert(response);
+                // Reload the page after adding the product
+                location.reload();
+            },
+            error: function () {
+                alert('Error adding product.');
+            }
         });
-      });
     });
-  </script>
+});
+</script> -->
 
 </body>
 </html>

@@ -257,6 +257,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+<?php include('include/alert.php'); ?>
 
 <!-- <script>
 $(document).ready(function () {
@@ -276,6 +279,7 @@ $(document).ready(function () {
                 // Reload the page after adding the product
                 location.reload();
             },
+                
             error: function () {
                 alert('Error adding product.');
             }

@@ -128,6 +128,29 @@ class database
         return $last_id;
     }
 
+    function addCart($cartID, $cust_id, $productID, $price, $qty){
+        $con = $this->opencon();
+        $stmt = $con->prepare("INSERT INTO cart (cartID, cust_ID, productID, price, qty) VALUES (?,?,?,?,?)");
+        $stmt->execute([$cartID, $cust_id, $productID, $price, $qty]);
+
+    }
+
+    function getProductPrice($productID) {
+        $con = $this->opencon();
+        $stmt = $con->prepare("SELECT product_price FROM product WHERE productID = ?");
+        $stmt->execute([$productID]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['product_price'];
+    }
+
+    function getProductData($productID)
+    {
+        $con = $this->opencon();
+        $stmt = $con->prepare("SELECT product_price FROM product WHERE productID = ?");
+        $stmt->execute([$productID]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 
     // function addProduct($productName, $productDescription, $productPrice, $productImage, $productStock)
     // {
@@ -172,6 +195,11 @@ class database
         FROM
             product");
 
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    function viewProduct_img(){
+        $con = $this->opencon();
+        $stmt = $con->query("SELECT product_image from product");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
